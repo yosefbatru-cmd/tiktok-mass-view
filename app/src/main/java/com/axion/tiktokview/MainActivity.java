@@ -30,20 +30,18 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
-import okhttp3.Authenticator;
 import okhttp3.Credentials;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-import okhttp3.Route;
 
 public class MainActivity extends Activity {
 
     private EditText urlInput, countInput, threadsInput, proxyInput;
     private Button startBtn, stopBtn, modeDirectBtn, modeProxyBtn;
-    private TextView statusText, sentText, rpsText, failText, delayLabel, proxyLabel;
+    private TextView statusText, sentText, rpsText, failText, delayLabel, proxyLabel, logConsole, statusDot;
     private ProgressBar progress;
     private SeekBar delaySeek;
 
@@ -63,18 +61,22 @@ public class MainActivity extends Activity {
     private OkHttpClient baseClient;
     private final List<OkHttpClient> proxyClients = new ArrayList<>();
     private final Object clientLock = new Object();
+    private final StringBuilder logBuf = new StringBuilder();
+    private int logLines = 0;
 
     private static final MediaType JSON = MediaType.get("application/json; charset=utf-8");
+    private static final int GREEN = 0xFF00FF41;
+    private static final int GREEN_DIM = 0xFF1A7A2E;
+    private static final int BG_PANEL = 0xFF0D1A0D;
+    private static final int BG_DARK = 0xFF0A0E0A;
 
     private static final String[] USER_AGENTS = {
         "com.zhiliaoapp.musically/2023405030 (Linux; U; Android 14; en_US; Pixel 8; Build/UQ1A.240205.004; Cronet/119.0.6045.66)",
         "com.zhiliaoapp.musically/2023405030 (Linux; U; Android 14; en_US; SM-S918B; Build/UP1A.231005.007; Cronet/119.0.6045.66)",
         "com.zhiliaoapp.musically/2023404030 (Linux; U; Android 13; en_GB; Pixel 7; Build/TQ3A.230805.001; Cronet/114.0.5735.61)",
         "com.zhiliaoapp.musically/2023404030 (Linux; U; Android 13; en_US; SM-G998B; Build/TP1A.220624.014; Cronet/114.0.5735.61)",
-        "com.zhiliaoapp.musically/2023403030 (Linux; U; Android 14; en_US; Pixel 8 Pro; Build/UD1A.230803.041; Cronet/119.0.6045.66)",
         "Mozilla/5.0 (Linux; Android 14; Pixel 8) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Mobile Safari/537.36",
-        "Mozilla/5.0 (Linux; Android 14; SM-S918B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Mobile Safari/537.36",
-        "Mozilla/5.0 (Linux; Android 13; Pixel 7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Mobile Safari/537.36"
+        "Mozilla/5.0 (Linux; Android 14; SM-S918B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Mobile Safari/537.36"
     };
 
     private static final String[] DEVICE_MODELS = {
@@ -91,6 +93,8 @@ public class MainActivity extends Activity {
         acquireWakeLock();
         buildBaseClient();
         setMode(false);
+        log("> system online");
+        log("> waiting for command...");
     }
 
     private void bindViews() {
@@ -110,6 +114,8 @@ public class MainActivity extends Activity {
         delaySeek = findViewById(R.id.delay_seek);
         delayLabel = findViewById(R.id.delay_label);
         proxyLabel = findViewById(R.id.proxy_label);
+        logConsole = findViewById(R.id.log_console);
+        statusDot = findViewById(R.id.status_dot);
     }
 
     private void setupListeners() {
@@ -124,31 +130,45 @@ public class MainActivity extends Activity {
             @Override public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 minDelayMs = Math.max(8, progress / 3);
                 maxDelayMs = Math.max(minDelayMs + 15, progress);
-                delayLabel.setText("Delay: " + minDelayMs + "-" + maxDelayMs + " ms");
+                delayLabel.setText("[ DELAY ]  " + minDelayMs + "-" + maxDelayMs + " ms");
             }
             @Override public void onStartTrackingTouch(SeekBar seekBar) {}
             @Override public void onStopTrackingTouch(SeekBar seekBar) {}
         });
-        delayLabel.setText("Delay: 30-100 ms");
+        delayLabel.setText("[ DELAY ]  30-100 ms");
     }
 
     private void setMode(boolean proxy) {
         useProxyMode = proxy;
         if (proxy) {
-            modeProxyBtn.setBackgroundColor(0xFFFE2C55);
-            modeProxyBtn.setTextColor(0xFFFFFFFF);
-            modeDirectBtn.setBackgroundColor(0xFF1C1C1C);
-            modeDirectBtn.setTextColor(0xFFAAAAAA);
+            modeProxyBtn.setBackgroundColor(GREEN);
+            modeProxyBtn.setTextColor(BG_DARK);
+            modeDirectBtn.setBackgroundColor(BG_PANEL);
+            modeDirectBtn.setTextColor(GREEN_DIM);
             proxyLabel.setVisibility(View.VISIBLE);
             proxyInput.setVisibility(View.VISIBLE);
+            log("> mode set: PROXY");
         } else {
-            modeDirectBtn.setBackgroundColor(0xFFFE2C55);
-            modeDirectBtn.setTextColor(0xFFFFFFFF);
-            modeProxyBtn.setBackgroundColor(0xFF1C1C1C);
-            modeProxyBtn.setTextColor(0xFFAAAAAA);
+            modeDirectBtn.setBackgroundColor(GREEN);
+            modeDirectBtn.setTextColor(BG_DARK);
+            modeProxyBtn.setBackgroundColor(BG_PANEL);
+            modeProxyBtn.setTextColor(GREEN_DIM);
             proxyLabel.setVisibility(View.GONE);
             proxyInput.setVisibility(View.GONE);
+            log("> mode set: DIRECT");
         }
+    }
+
+    private void log(String line) {
+        mainHandler.post(() -> {
+            if (logLines > 40) {
+                int cut = logBuf.indexOf("\n");
+                if (cut > 0) { logBuf.delete(0, cut + 1); logLines--; }
+            }
+            logBuf.append(line).append("\n");
+            logLines++;
+            if (logConsole != null) logConsole.setText(logBuf.toString());
+        });
     }
 
     private void acquireWakeLock() {
@@ -174,7 +194,8 @@ public class MainActivity extends Activity {
     private void startEngine() {
         String videoUrl = urlInput.getText().toString().trim();
         if (videoUrl.isEmpty() || !videoUrl.contains("tiktok.com")) {
-            Toast.makeText(this, "Paste a valid TikTok video URL", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "invalid target url", Toast.LENGTH_SHORT).show();
+            log("> error: invalid target");
             return;
         }
         int target = parseIntSafe(countInput.getText().toString(), 10000);
@@ -183,12 +204,14 @@ public class MainActivity extends Activity {
         if (useProxyMode) {
             rebuildProxyClients(proxyInput.getText().toString());
             if (proxyClients.isEmpty()) {
-                Toast.makeText(this, "Proxy mode: add at least one proxy", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "proxy list empty", Toast.LENGTH_SHORT).show();
+                log("> error: no proxies loaded");
                 return;
             }
         } else {
             synchronized (clientLock) { proxyClients.clear(); }
         }
+
         running.set(true);
         sentCount.set(0);
         failCount.set(0);
@@ -196,9 +219,17 @@ public class MainActivity extends Activity {
         startBtn.setEnabled(false);
         stopBtn.setEnabled(true);
         progress.setVisibility(View.VISIBLE);
+        if (statusDot != null) {
+            statusDot.setText("● LIVE");
+            statusDot.setTextColor(GREEN);
+        }
+
         String modeLabel = useProxyMode ? ("proxy x" + proxyClients.size()) : "direct";
-        statusText.setText("Engine • " + threads + " threads • " + modeLabel);
+        statusText.setText("status: running  |  " + threads + " threads  |  " + modeLabel);
+        log("> execute: threads=" + threads + " mode=" + modeLabel);
+        log("> target loaded");
         updateStats(target);
+
         Intent svc = new Intent(this, ViewEngineService.class);
         svc.setAction(ViewEngineService.ACTION_START);
         svc.putExtra(ViewEngineService.EXTRA_URL, videoUrl);
@@ -209,6 +240,7 @@ public class MainActivity extends Activity {
         svc.putExtra(ViewEngineService.EXTRA_MAX_DELAY, maxDelayMs);
         svc.putExtra(ViewEngineService.EXTRA_USE_PROXY, useProxyMode);
         if (android.os.Build.VERSION.SDK_INT >= 26) startForegroundService(svc); else startService(svc);
+
         final int poolSize = threads;
         executor = Executors.newFixedThreadPool(poolSize, new ThreadFactory() {
             private final AtomicInteger n = new AtomicInteger(1);
@@ -238,10 +270,15 @@ public class MainActivity extends Activity {
         int fails = failCount.get();
         long elapsed = Math.max(1, System.currentTimeMillis() - startTimeMs.get());
         double rps = sent * 1000.0 / elapsed;
-        sentText.setText(String.format("Sent: %,d / %,d", sent, target));
-        rpsText.setText(String.format("%.1f req/s", rps));
-        failText.setText("Fails: " + fails);
-        if (sent >= target) { stopEngine(); statusText.setText("Target reached."); }
+        sentText.setText(String.format("sent: %,d / %,d", sent, target));
+        rpsText.setText(String.format("%.1f rps", rps));
+        failText.setText("fail: " + fails);
+        if (sent > 0 && sent % 500 == 0) log("> checkpoint: " + sent + " sent @ " + String.format("%.1f", rps) + " rps");
+        if (sent >= target) {
+            stopEngine();
+            statusText.setText("status: target reached");
+            log("> mission complete");
+        }
     }
 
     private void worker(String videoUrl, int target) {
@@ -306,6 +343,7 @@ public class MainActivity extends Activity {
                 } catch (Exception ignored) {}
             }
         }
+        log("> proxies loaded: " + proxyClients.size());
     }
 
     private static class ParsedProxy { String host; int port; String user; String pass; }
@@ -350,7 +388,12 @@ public class MainActivity extends Activity {
             startBtn.setEnabled(true);
             stopBtn.setEnabled(false);
             progress.setVisibility(View.GONE);
-            statusText.setText("Stopped.");
+            statusText.setText("status: aborted");
+            if (statusDot != null) {
+                statusDot.setText("● IDLE");
+                statusDot.setTextColor(0xFF555555);
+            }
+            log("> engine stopped");
         });
     }
 
