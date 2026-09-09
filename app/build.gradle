@@ -10,8 +10,8 @@ android {
         applicationId "com.axion.tiktokview"
         minSdk 24
         targetSdk 34
-        versionCode 3
-        versionName "3.0-okhttp"
+        versionCode 4
+        versionName "4.0-mr-unknown"
     }
 
     buildTypes {
@@ -32,6 +32,6 @@ android {
 }
 
 dependencies {
-    // OkHttp — high-performance HTTP with connection pooling
     implementation 'com.squareup.okhttp3:okhttp:4.12.0'
+    implementation 'androidx.core:core:1.13.1'
 }
