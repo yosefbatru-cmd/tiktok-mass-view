@@ -1,0 +1,37 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    namespace 'com.axion.tiktokview'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId "com.axion.tiktokview"
+        minSdk 24
+        targetSdk 34
+        versionCode 3
+        versionName "3.0-okhttp"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            minifyEnabled false
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+}
+
+dependencies {
+    // OkHttp — high-performance HTTP with connection pooling
+    implementation 'com.squareup.okhttp3:okhttp:4.12.0'
+}
