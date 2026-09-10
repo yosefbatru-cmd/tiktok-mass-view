@@ -2,100 +2,70 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0A0E0A"
+    android:background="#0B0B0B"
     android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="14dp">
 
-        <!-- Terminal header bar -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center_vertical"
-            android:background="#0D1A0D"
-            android:padding="12dp"
-            android:layout_marginBottom="4dp">
+            android:layout_marginBottom="12dp">
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="root@mr-unknown:~#"
-                android:textColor="#00FF41"
-                android:textSize="13sp"
+                android:text="mr unknown"
+                android:textColor="#C8C8C8"
+                android:textSize="16sp"
                 android:fontFamily="monospace"/>
 
             <TextView
                 android:id="@+id/status_dot"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="● IDLE"
+                android:text="idle"
                 android:textColor="#555555"
                 android:textSize="11sp"
                 android:fontFamily="monospace"/>
         </LinearLayout>
 
-        <!-- Big title -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="MR UNKNOWN"
-            android:textColor="#00FF41"
-            android:textSize="28sp"
-            android:textStyle="bold"
-            android:gravity="center"
-            android:letterSpacing="0.18"
-            android:fontFamily="monospace"
-            android:layout_marginTop="12dp"
-            android:layout_marginBottom="2dp"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="&gt; mass_view_engine  v4.1  [interactive]"
-            android:textColor="#1A7A2E"
-            android:textSize="11sp"
-            android:gravity="center"
-            android:fontFamily="monospace"
-            android:layout_marginBottom="18dp"/>
-
-        <!-- Target URL block -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="[ TARGET_URL ]"
-            android:textColor="#00FF41"
+            android:text="url"
+            android:textColor="#666666"
             android:textSize="11sp"
             android:fontFamily="monospace"
-            android:letterSpacing="0.08"
-            android:layout_marginBottom="6dp"/>
+            android:layout_marginBottom="4dp"/>
 
         <EditText
             android:id="@+id/url_input"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:hint="https://www.tiktok.com/@user/video/..."
-            android:textColor="#00FF41"
-            android:textColorHint="#1A3D1A"
-            android:background="#0D1A0D"
-            android:padding="12dp"
+            android:layout_height="44dp"
+            android:hint="tiktok.com/@.../video/..."
+            android:textColor="#DDDDDD"
+            android:textColorHint="#333333"
+            android:background="#141414"
+            android:padding="10dp"
             android:inputType="textUri"
             android:singleLine="true"
             android:fontFamily="monospace"
             android:textSize="12sp"
-            android:layout_marginBottom="14dp"/>
+            android:layout_marginBottom="12dp"/>
 
-        <!-- Params row -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginBottom="14dp">
+            android:layout_marginBottom="12dp">
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -107,24 +77,24 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="[ TARGET ]"
-                    android:textColor="#00FF41"
-                    android:textSize="10sp"
+                    android:text="target"
+                    android:textColor="#666666"
+                    android:textSize="11sp"
                     android:fontFamily="monospace"
                     android:layout_marginBottom="4dp"/>
 
                 <EditText
                     android:id="@+id/count_input"
                     android:layout_width="match_parent"
-                    android:layout_height="46dp"
-                    android:text="10000"
-                    android:textColor="#00FF41"
-                    android:background="#0D1A0D"
+                    android:layout_height="42dp"
+                    android:text="5000"
+                    android:textColor="#DDDDDD"
+                    android:background="#141414"
                     android:padding="10dp"
                     android:inputType="number"
                     android:singleLine="true"
                     android:fontFamily="monospace"
-                    android:textSize="14sp"
+                    android:textSize="13sp"
                     android:gravity="center"/>
             </LinearLayout>
 
@@ -138,37 +108,114 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="[ THREADS ]"
-                    android:textColor="#00FF41"
-                    android:textSize="10sp"
+                    android:text="threads"
+                    android:textColor="#666666"
+                    android:textSize="11sp"
                     android:fontFamily="monospace"
                     android:layout_marginBottom="4dp"/>
 
                 <EditText
                     android:id="@+id/threads_input"
                     android:layout_width="match_parent"
-                    android:layout_height="46dp"
-                    android:text="48"
-                    android:textColor="#00FF41"
-                    android:background="#0D1A0D"
+                    android:layout_height="42dp"
+                    android:text="16"
+                    android:textColor="#DDDDDD"
+                    android:background="#141414"
                     android:padding="10dp"
                     android:inputType="number"
                     android:singleLine="true"
                     android:fontFamily="monospace"
-                    android:textSize="14sp"
+                    android:textSize="13sp"
                     android:gravity="center"/>
             </LinearLayout>
         </LinearLayout>
 
-        <!-- Mode -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="[ MODE ]"
-            android:textColor="#00FF41"
-            android:textSize="10sp"
+            android:text="mode"
+            android:textColor="#666666"
+            android:textSize="11sp"
             android:fontFamily="monospace"
-            android:layout_marginBottom="6dp"/>
+            android:layout_marginBottom="4dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="12dp">
+
+            <Button
+                android:id="@+id/mode_direct_btn"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:text="direct"
+                android:textColor="#111111"
+                android:textSize="12sp"
+                android:fontFamily="monospace"
+                android:background="#AAAAAA"
+                android:layout_marginEnd="6dp"/>
+
+            <Button
+                android:id="@+id/mode_proxy_btn"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:text="proxy"
+                android:textColor="#888888"
+                android:textSize="12sp"
+                android:fontFamily="monospace"
+                android:background="#1A1A1A"
+                android:layout_marginStart="6dp"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/delay_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="delay  80-200 ms"
+            android:textColor="#666666"
+            android:textSize="11sp"
+            android:fontFamily="monospace"
+            android:layout_marginBottom="2dp"/>
+
+        <SeekBar
+            android:id="@+id/delay_seek"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="400"
+            android:progress="140"
+            android:layout_marginBottom="12dp"
+            android:progressTint="#888888"
+            android:thumbTint="#AAAAAA"/>
+
+        <TextView
+            android:id="@+id/proxy_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="proxies"
+            android:textColor="#666666"
+            android:textSize="11sp"
+            android:fontFamily="monospace"
+            android:layout_marginBottom="4dp"
+            android:visibility="gone"/>
+
+        <EditText
+            android:id="@+id/proxy_input"
+            android:layout_width="match_parent"
+            android:layout_height="72dp"
+            android:hint="host:port\nuser:pass@host:port"
+            android:textColor="#DDDDDD"
+            android:textColorHint="#333333"
+            android:background="#141414"
+            android:padding="10dp"
+            android:gravity="top"
+            android:inputType="textMultiLine"
+            android:fontFamily="monospace"
+            android:textSize="11sp"
+            android:layout_marginBottom="12dp"
+            android:visibility="gone"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -177,111 +224,28 @@
             android:layout_marginBottom="14dp">
 
             <Button
-                android:id="@+id/mode_direct_btn"
-                android:layout_width="0dp"
-                android:layout_height="42dp"
-                android:layout_weight="1"
-                android:text="DIRECT"
-                android:textColor="#0A0E0A"
-                android:textSize="12sp"
-                android:textStyle="bold"
-                android:fontFamily="monospace"
-                android:background="#00FF41"
-                android:layout_marginEnd="6dp"/>
-
-            <Button
-                android:id="@+id/mode_proxy_btn"
-                android:layout_width="0dp"
-                android:layout_height="42dp"
-                android:layout_weight="1"
-                android:text="PROXY"
-                android:textColor="#1A7A2E"
-                android:textSize="12sp"
-                android:fontFamily="monospace"
-                android:background="#0D1A0D"
-                android:layout_marginStart="6dp"/>
-        </LinearLayout>
-
-        <!-- Delay -->
-        <TextView
-            android:id="@+id/delay_label"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="[ DELAY ]  30-100 ms"
-            android:textColor="#00FF41"
-            android:textSize="10sp"
-            android:fontFamily="monospace"
-            android:layout_marginBottom="4dp"/>
-
-        <SeekBar
-            android:id="@+id/delay_seek"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:max="300"
-            android:progress="80"
-            android:layout_marginBottom="12dp"
-            android:progressTint="#00FF41"
-            android:thumbTint="#00FF41"/>
-
-        <!-- Proxy block -->
-        <TextView
-            android:id="@+id/proxy_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="[ PROXY_LIST ]  host:port | user:pass@host:port"
-            android:textColor="#00FF41"
-            android:textSize="10sp"
-            android:fontFamily="monospace"
-            android:layout_marginBottom="6dp"
-            android:visibility="gone"/>
-
-        <EditText
-            android:id="@+id/proxy_input"
-            android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:hint="1.2.3.4:8080\nuser:pass@5.6.7.8:3128"
-            android:textColor="#00FF41"
-            android:textColorHint="#1A3D1A"
-            android:background="#0D1A0D"
-            android:padding="10dp"
-            android:gravity="top"
-            android:inputType="textMultiLine"
-            android:fontFamily="monospace"
-            android:textSize="11sp"
-            android:layout_marginBottom="14dp"
-            android:visibility="gone"/>
-
-        <!-- Action buttons -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginBottom="16dp">
-
-            <Button
                 android:id="@+id/start_btn"
                 android:layout_width="0dp"
-                android:layout_height="52dp"
+                android:layout_height="46dp"
                 android:layout_weight="1"
-                android:text="▶  EXECUTE"
-                android:textColor="#0A0E0A"
-                android:textStyle="bold"
-                android:textSize="14sp"
+                android:text="start"
+                android:textColor="#111111"
+                android:textSize="13sp"
                 android:fontFamily="monospace"
-                android:background="#00FF41"
-                android:layout_marginEnd="8dp"/>
+                android:background="#CCCCCC"
+                android:layout_marginEnd="6dp"/>
 
             <Button
                 android:id="@+id/stop_btn"
                 android:layout_width="0dp"
-                android:layout_height="52dp"
+                android:layout_height="46dp"
                 android:layout_weight="1"
-                android:text="■  ABORT"
-                android:textColor="#FF3333"
-                android:textSize="14sp"
+                android:text="stop"
+                android:textColor="#AAAAAA"
+                android:textSize="13sp"
                 android:fontFamily="monospace"
-                android:background="#1A0A0A"
-                android:layout_marginStart="8dp"/>
+                android:background="#1A1A1A"
+                android:layout_marginStart="6dp"/>
         </LinearLayout>
 
         <ProgressBar
@@ -289,110 +253,70 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:indeterminate="true"
-            android:indeterminateTint="#00FF41"
+            android:indeterminateTint="#666666"
             android:visibility="gone"
-            android:layout_marginBottom="12dp"/>
+            android:layout_marginBottom="10dp"/>
 
-        <!-- Live telemetry panel -->
+        <TextView
+            android:id="@+id/status_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ready"
+            android:textColor="#666666"
+            android:textSize="12sp"
+            android:fontFamily="monospace"
+            android:layout_marginBottom="6dp"/>
+
+        <TextView
+            android:id="@+id/sent_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="0 / 0"
+            android:textColor="#DDDDDD"
+            android:textSize="18sp"
+            android:fontFamily="monospace"
+            android:layout_marginBottom="4dp"/>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="#0D1A0D"
-            android:padding="14dp"
+            android:orientation="horizontal"
             android:layout_marginBottom="12dp">
 
             <TextView
-                android:layout_width="match_parent"
+                android:id="@+id/rps_text"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="── TELEMETRY ──────────────────"
-                android:textColor="#1A7A2E"
-                android:textSize="10sp"
-                android:fontFamily="monospace"
-                android:layout_marginBottom="10dp"/>
+                android:layout_weight="1"
+                android:text="0.0 rps"
+                android:textColor="#888888"
+                android:textSize="12sp"
+                android:fontFamily="monospace"/>
 
             <TextView
-                android:id="@+id/status_text"
-                android:layout_width="match_parent"
+                android:id="@+id/fail_text"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="status: standby"
-                android:textColor="#1A7A2E"
+                android:layout_weight="1"
+                android:text="ok 0%"
+                android:textColor="#888888"
                 android:textSize="12sp"
                 android:fontFamily="monospace"
-                android:layout_marginBottom="8dp"/>
-
-            <TextView
-                android:id="@+id/sent_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="sent: 0 / 0"
-                android:textColor="#00FF41"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:fontFamily="monospace"
-                android:gravity="center"
-                android:layout_marginBottom="6dp"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center">
-
-                <TextView
-                    android:id="@+id/rps_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="0.0 rps"
-                    android:textColor="#00CC33"
-                    android:textSize="13sp"
-                    android:fontFamily="monospace"
-                    android:layout_marginEnd="24dp"/>
-
-                <TextView
-                    android:id="@+id/fail_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="fail: 0"
-                    android:textColor="#FF4444"
-                    android:textSize="13sp"
-                    android:fontFamily="monospace"/>
-            </LinearLayout>
+                android:gravity="end"/>
         </LinearLayout>
-
-        <!-- Live log console -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="── CONSOLE ────────────────────"
-            android:textColor="#1A7A2E"
-            android:textSize="10sp"
-            android:fontFamily="monospace"
-            android:layout_marginBottom="4dp"/>
 
         <TextView
             android:id="@+id/log_console"
             android:layout_width="match_parent"
-            android:layout_height="140dp"
-            android:background="#050805"
-            android:padding="10dp"
-            android:text="&gt; system online\n&gt; waiting for command...\n"
-            android:textColor="#00FF41"
+            android:layout_height="120dp"
+            android:background="#101010"
+            android:padding="8dp"
+            android:text=""
+            android:textColor="#777777"
             android:textSize="11sp"
             android:fontFamily="monospace"
             android:gravity="top"
-            android:scrollbars="vertical"
-            android:layout_marginBottom="10dp"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="background service active  •  label: Mr Unknown"
-            android:textColor="#0F2F0F"
-            android:textSize="10sp"
-            android:fontFamily="monospace"
-            android:gravity="center"
-            android:layout_marginBottom="6dp"/>
+            android:scrollbars="vertical"/>
 
     </LinearLayout>
 </ScrollView>
